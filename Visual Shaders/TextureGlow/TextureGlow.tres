@@ -1,0 +1,216 @@
+[gd_resource type="VisualShader" load_steps=24 format=2]
+
+[ext_resource path="res://Visual Shaders/TextureGlow/textures/ORANGE_BRICK_NORM.png" type="Texture" id=1]
+[ext_resource path="res://Visual Shaders/TextureGlow/textures/ORANGE_BRICK_SPEC.png" type="Texture" id=2]
+[ext_resource path="res://Visual Shaders/TextureGlow/textures/ORANGE_BRICK_AO.png" type="Texture" id=3]
+[ext_resource path="res://Visual Shaders/TextureGlow/new_noisetexture.tres" type="Texture" id=4]
+
+[sub_resource type="VisualShaderNodeInput" id=1]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeVectorOp" id=2]
+output_port_for_preview = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id=3]
+output_port_for_preview = 2
+
+[sub_resource type="VisualShaderNodeColorOp" id=4]
+output_port_for_preview = 0
+default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 0.8, 0.8, 0.8 ) ]
+
+[sub_resource type="VisualShaderNodeVectorOp" id=5]
+output_port_for_preview = 0
+operator = 5
+
+[sub_resource type="VisualShaderNodeVectorOp" id=6]
+output_port_for_preview = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeInput" id=7]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeVectorOp" id=8]
+output_port_for_preview = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeScalarUniform" id=9]
+uniform_name = "Brightness"
+
+[sub_resource type="VisualShaderNodeScalarUniform" id=10]
+uniform_name = "Glow_Strength"
+
+[sub_resource type="VisualShaderNodeScalarUniform" id=11]
+uniform_name = "Contrast"
+
+[sub_resource type="VisualShaderNodeColorUniform" id=12]
+uniform_name = "ColorUniform"
+
+[sub_resource type="VisualShaderNodeTexture" id=13]
+texture = ExtResource( 3 )
+
+[sub_resource type="VisualShaderNodeTexture" id=14]
+texture = ExtResource( 2 )
+
+[sub_resource type="VisualShaderNodeVectorOp" id=15]
+output_port_for_preview = 0
+default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 1.1, 1.2, 0.9 ) ]
+operator = 2
+
+[sub_resource type="VisualShaderNodeTexture" id=16]
+output_port_for_preview = 0
+texture = ExtResource( 4 )
+
+[sub_resource type="VisualShaderNodeVectorOp" id=17]
+output_port_for_preview = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeTexture" id=18]
+texture = ExtResource( 1 )
+
+[sub_resource type="VisualShaderNodeInput" id=19]
+input_name = "uv"
+
+[resource]
+code = "shader_type spatial;
+uniform sampler2D tex_frg_3;
+uniform float Brightness;
+uniform vec4 ColorUniform : hint_color;
+uniform float Contrast;
+uniform sampler2D tex_frg_5;
+uniform float Glow_Strength;
+uniform sampler2D tex_frg_27;
+uniform sampler2D tex_frg_8;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Input:10
+	vec3 n_out10p0 = vec3(UV, 0.0);
+
+// Texture:3
+	vec4 tex_frg_3_read = texture(tex_frg_3, n_out10p0.xy);
+	vec3 n_out3p0 = tex_frg_3_read.rgb;
+	float n_out3p1 = tex_frg_3_read.a;
+
+// ScalarUniform:23
+	float n_out23p0 = Brightness;
+
+// VectorOp:6
+	vec3 n_out6p0 = n_out3p0 * vec3(n_out23p0);
+
+// ColorUniform:26
+	vec3 n_out26p0 = ColorUniform.rgb;
+	float n_out26p1 = ColorUniform.a;
+
+// ColorOp:16
+	vec3 n_in16p1 = vec3(0.80000, 0.80000, 0.80000);
+	vec3 n_out16p0 = vec3(1.0) - (vec3(1.0) - n_out6p0) * (vec3(1.0) - n_in16p1);
+
+// ScalarUniform:25
+	float n_out25p0 = Contrast;
+
+// VectorOp:17
+	vec3 n_out17p0 = pow(n_out16p0, vec3(n_out25p0));
+
+// Input:2
+	vec3 n_out2p0 = vec3(UV, 0.0);
+
+// VectorOp:4
+	vec3 n_in4p1 = vec3(1.10000, 1.20000, 0.90000);
+	vec3 n_out4p0 = n_out2p0 * n_in4p1;
+
+// Texture:5
+	vec4 tex_frg_5_read = texture(tex_frg_5, n_out4p0.xy);
+	vec3 n_out5p0 = tex_frg_5_read.rgb;
+	float n_out5p1 = tex_frg_5_read.a;
+
+// VectorDecompose:14
+	float n_out14p0 = n_out5p0.x;
+	float n_out14p1 = n_out5p0.y;
+	float n_out14p2 = n_out5p0.z;
+
+// VectorOp:11
+	vec3 n_out11p0 = n_out17p0 * vec3(n_out14p0);
+
+// ScalarUniform:24
+	float n_out24p0 = Glow_Strength;
+
+// VectorOp:19
+	vec3 n_out19p0 = n_out11p0 * vec3(n_out24p0);
+
+// VectorOp:22
+	vec3 n_out22p0 = n_out26p0 * n_out19p0;
+
+// Input:9
+	vec3 n_out9p0 = vec3(UV, 0.0);
+
+// Texture:27
+	vec4 tex_frg_27_read = texture(tex_frg_27, n_out9p0.xy);
+	vec3 n_out27p0 = tex_frg_27_read.rgb;
+	float n_out27p1 = tex_frg_27_read.a;
+
+// Texture:8
+	vec4 tex_frg_8_read = texture(tex_frg_8, n_out9p0.xy);
+	vec3 n_out8p0 = tex_frg_8_read.rgb;
+	float n_out8p1 = tex_frg_8_read.a;
+
+// Output:0
+	ALBEDO = n_out6p0;
+	EMISSION = n_out22p0;
+	AO = dot(n_out27p0, vec3(0.333333, 0.333333, 0.333333));
+	NORMALMAP = n_out8p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( 758, 25 )
+nodes/fragment/0/position = Vector2( 2360, 60 )
+nodes/fragment/2/node = SubResource( 7 )
+nodes/fragment/2/position = Vector2( 780, 420 )
+nodes/fragment/3/node = SubResource( 14 )
+nodes/fragment/3/position = Vector2( 740, 40 )
+nodes/fragment/4/node = SubResource( 15 )
+nodes/fragment/4/position = Vector2( 940, 420 )
+nodes/fragment/5/node = SubResource( 16 )
+nodes/fragment/5/position = Vector2( 1160, 420 )
+nodes/fragment/6/node = SubResource( 17 )
+nodes/fragment/6/position = Vector2( 980, 40 )
+nodes/fragment/8/node = SubResource( 18 )
+nodes/fragment/8/position = Vector2( 2160, 280 )
+nodes/fragment/9/node = SubResource( 19 )
+nodes/fragment/9/position = Vector2( 1980, 420 )
+nodes/fragment/10/node = SubResource( 1 )
+nodes/fragment/10/position = Vector2( 740, 280 )
+nodes/fragment/11/node = SubResource( 2 )
+nodes/fragment/11/position = Vector2( 1580, 360 )
+nodes/fragment/14/node = SubResource( 3 )
+nodes/fragment/14/position = Vector2( 1360, 420 )
+nodes/fragment/16/node = SubResource( 4 )
+nodes/fragment/16/position = Vector2( 1180, 120 )
+nodes/fragment/17/node = SubResource( 5 )
+nodes/fragment/17/position = Vector2( 1420, 120 )
+nodes/fragment/19/node = SubResource( 6 )
+nodes/fragment/19/position = Vector2( 1780, 360 )
+nodes/fragment/22/node = SubResource( 8 )
+nodes/fragment/22/position = Vector2( 1980, 180 )
+nodes/fragment/23/node = SubResource( 9 )
+nodes/fragment/23/position = Vector2( 960, 260 )
+nodes/fragment/24/node = SubResource( 10 )
+nodes/fragment/24/position = Vector2( 1580, 580 )
+nodes/fragment/25/node = SubResource( 11 )
+nodes/fragment/25/position = Vector2( 1160, 340 )
+nodes/fragment/26/node = SubResource( 12 )
+nodes/fragment/26/position = Vector2( 1780, 140 )
+nodes/fragment/27/node = SubResource( 13 )
+nodes/fragment/27/position = Vector2( 2160, 500 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 4, 0, 4, 0, 5, 0, 6, 0, 0, 0, 9, 0, 8, 0, 10, 0, 3, 0, 6, 0, 16, 0, 16, 0, 17, 0, 17, 0, 11, 0, 5, 0, 14, 0, 11, 0, 19, 0, 19, 0, 22, 1, 23, 0, 6, 1, 25, 0, 17, 1, 24, 0, 19, 1, 26, 0, 22, 0, 27, 0, 0, 6, 9, 0, 27, 0, 8, 0, 0, 8, 22, 0, 0, 5, 3, 0, 6, 0, 14, 0, 11, 1 )
