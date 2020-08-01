@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Visual Shaders/Fresnel Effect/Fresnel.material" type="Material" id=1]
 [ext_resource path="res://Visual Shaders/Fresnel Effect/rotate.gd" type="Script" id=2]
+[ext_resource path="res://Visual Shaders/Fresnel Effect/HDR2.tres" type="Environment" id=3]
 
 [sub_resource type="SphereMesh" id=4]
 material = ExtResource( 1 )
@@ -14,4 +15,10 @@ material/0 = null
 script = ExtResource( 2 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.943847, 0.330383, 0, -0.330383, 0.943847, 0, 1.55176, 3.76952 )
+transform = Transform( 1, 0, 0, 0, 0.943847, 0.330383, 0, -0.330383, 0.943847, 0, 0.681277, 1.87688 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 3 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.697515, -0.325405, 0.638423, 0, 0.890943, 0.454115, -0.71657, -0.316752, 0.621446, 2.47834, 0, 2.1107 )

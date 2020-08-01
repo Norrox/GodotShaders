@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=13 format=2]
+[gd_resource type="VisualShader" load_steps=14 format=2]
 
 [sub_resource type="VisualShaderNodeInput" id=7]
 input_name = "uv"
@@ -10,7 +10,7 @@ uniform_name = "TextureUniform"
 uniform_name = "AlphaOrEmissionFresnel"
 
 [sub_resource type="VisualShaderNodeExpression" id=12]
-size = Vector2( 799, 707 )
+size = Vector2( 790, 437 )
 expression = "if(AlphaOrEmissionFresnel == true){
 	Alpha_out = Fresnel_in;
 }else{
@@ -33,6 +33,9 @@ default_input_values = [ 2, false, 3, 5.0 ]
 [sub_resource type="VisualShaderNodeInput" id=19]
 input_name = "view"
 
+[sub_resource type="VisualShaderNodeBooleanUniform" id=20]
+uniform_name = "InvertFresnel"
+
 [sub_resource type="VisualShaderNodeColorUniform" id=13]
 uniform_name = "EmissiveColor"
 
@@ -53,6 +56,7 @@ code = "shader_type spatial;
 uniform sampler2D TextureUniform;
 uniform bool EnableEmission;
 uniform bool AlphaOrEmissionFresnel;
+uniform bool InvertFresnel;
 uniform float FresnelStrength;
 uniform vec4 EmissiveColor : hint_color;
 uniform float EmissiveIntensity;
@@ -89,12 +93,14 @@ void fragment() {
 // Input:20
 	vec3 n_out20p0 = VIEW;
 
+// BooleanUniform:21
+	bool n_out21p0 = InvertFresnel;
+
 // ScalarUniform:4
 	float n_out4p0 = FresnelStrength;
 
 // Fresnel:2
-	bool n_in2p2 = false;
-	float n_out2p0 = n_in2p2 ? (pow(clamp(dot(n_out19p0, n_out20p0), 0.0, 1.0), n_out4p0)) : (pow(1.0 - clamp(dot(n_out19p0, n_out20p0), 0.0, 1.0), n_out4p0));
+	float n_out2p0 = n_out21p0 ? (pow(clamp(dot(n_out19p0, n_out20p0), 0.0, 1.0), n_out4p0)) : (pow(1.0 - clamp(dot(n_out19p0, n_out20p0), 0.0, 1.0), n_out4p0));
 
 // ColorUniform:3
 	vec3 n_out3p0 = EmissiveColor.rgb;
@@ -138,8 +144,8 @@ void light() {
 
 }
 "
-graph_offset = Vector2( 235, -26.86 )
-nodes/fragment/0/position = Vector2( 1821, 67 )
+graph_offset = Vector2( 74, -87.86 )
+nodes/fragment/0/position = Vector2( 1845, 95 )
 nodes/fragment/2/node = SubResource( 1 )
 nodes/fragment/2/position = Vector2( 682.24, 229.16 )
 nodes/fragment/3/node = SubResource( 13 )
@@ -159,8 +165,8 @@ nodes/fragment/14/position = Vector2( 1576.24, -53.84 )
 nodes/fragment/16/node = SubResource( 10 )
 nodes/fragment/16/position = Vector2( 695.24, 166.16 )
 nodes/fragment/18/node = SubResource( 12 )
-nodes/fragment/18/position = Vector2( 943.56, 126.8 )
-nodes/fragment/18/size = Vector2( 799, 707 )
+nodes/fragment/18/position = Vector2( 971.56, 122.8 )
+nodes/fragment/18/size = Vector2( 790, 437 )
 nodes/fragment/18/input_ports = "0,2,EnableEmission;1,2,AlphaOrEmissionFresnel;2,0,Fresnel_in;3,1,Emission_in;"
 nodes/fragment/18/output_ports = "0,0,Alpha_out;1,1,Emission_out;"
 nodes/fragment/18/expression = "if(AlphaOrEmissionFresnel == true){
@@ -176,7 +182,9 @@ if(EnableEmission == true && AlphaOrEmissionFresnel == false) {
 	Emission_out = vec3(0f,0f,0f);
 }"
 nodes/fragment/19/node = SubResource( 18 )
-nodes/fragment/19/position = Vector2( 458.24, 204.535 )
+nodes/fragment/19/position = Vector2( 455.24, 123.535 )
 nodes/fragment/20/node = SubResource( 19 )
-nodes/fragment/20/position = Vector2( 474.24, 268.535 )
-nodes/fragment/connections = PoolIntArray( 4, 0, 2, 3, 3, 0, 6, 0, 5, 0, 6, 1, 13, 0, 14, 0, 14, 0, 0, 0, 6, 0, 18, 3, 2, 0, 18, 2, 19, 0, 2, 0, 20, 0, 2, 1, 8, 0, 18, 0, 16, 0, 18, 1, 18, 0, 0, 1, 18, 1, 0, 5 )
+nodes/fragment/20/position = Vector2( 471.24, 187.535 )
+nodes/fragment/21/node = SubResource( 20 )
+nodes/fragment/21/position = Vector2( 443, 249.14 )
+nodes/fragment/connections = PoolIntArray( 4, 0, 2, 3, 3, 0, 6, 0, 5, 0, 6, 1, 13, 0, 14, 0, 6, 0, 18, 3, 2, 0, 18, 2, 19, 0, 2, 0, 20, 0, 2, 1, 8, 0, 18, 0, 16, 0, 18, 1, 18, 0, 0, 1, 21, 0, 2, 2, 14, 0, 0, 0, 18, 1, 0, 5 )
