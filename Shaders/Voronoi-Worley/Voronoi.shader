@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
 vec2 RNGV2(vec2 p) {
-	vec3 a = fract(p.xyx * vec3(111.11,333.33,444.44));
+	vec3 a = fract(vec3(p.x, p.y, p.x) * vec3(111.11,333.33,444.44));
 	a += dot(a, a+33.51);
 	return fract(vec2(a.x*a.y, a.y*a.z)); //outputs a random vec2 between 0 and 1
 }
