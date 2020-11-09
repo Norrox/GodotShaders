@@ -86,8 +86,10 @@ render_mode specular_blinn;
 
 uniform vec4 Water_A : hint_color;
 uniform vec4 Water_B : hint_color;
-uniform sampler2D tex_frg_17 : hint_normal;uniform float NormalStrength;
+uniform sampler2D tex_frg_17 : hint_normal;
+uniform float NormalStrength;
 uniform sampler2D tex_frg_23 : hint_normal;
+
 
 
 void vertex() {
@@ -97,120 +99,90 @@ void vertex() {
 
 void fragment() {
 // ColorUniform:9
-	vec3 n_out9p0;
-	float n_out9p1;
-	n_out9p0 = Water_A.rgb;
-	n_out9p1 = Water_A.a;
+	vec3 n_out9p0 = Water_A.rgb;
+	float n_out9p1 = Water_A.a;
 
 // ColorUniform:10
-	vec3 n_out10p0;
-	float n_out10p1;
-	n_out10p0 = Water_B.rgb;
-	n_out10p1 = Water_B.a;
+	vec3 n_out10p0 = Water_B.rgb;
+	float n_out10p1 = Water_B.a;
 
 // Input:3
-	vec3 n_out3p0;
-	n_out3p0 = NORMAL;
+	vec3 n_out3p0 = NORMAL;
 
 // Input:4
-	vec3 n_out4p0;
-	n_out4p0 = VIEW;
+	vec3 n_out4p0 = VIEW;
 
 // Fresnel:2
-	bool n_in2p2 = false;
 	float n_in2p3 = 1.00000;
-	float n_out2p0;
-	n_out2p0 = n_in2p2 ? (pow(clamp(dot(n_out3p0, n_out4p0), 0.0, 1.0), n_in2p3)) : (pow(1.0 - clamp(dot(n_out3p0, n_out4p0), 0.0, 1.0), n_in2p3));
+	float n_out2p0 = pow(1.0 - clamp(dot(n_out3p0, n_out4p0), 0.0, 1.0), n_in2p3);
+
 // VectorMix:8
-	vec3 n_out8p0;
-	n_out8p0 = mix( n_out9p0 , n_out10p0 , vec3(n_out2p0) );
+	vec3 n_out8p0 = mix(n_out9p0, n_out10p0, vec3(n_out2p0));
 
 // Scalar:38
-	float n_out38p0;
-	n_out38p0 = 0.500000;
+	float n_out38p0 = 0.500000;
 
 // Scalar:40
-	float n_out40p0;
-	n_out40p0 = 0.470000;
+	float n_out40p0 = 0.470000;
 
 // Scalar:39
-	float n_out39p0;
-	n_out39p0 = 1.000000;
+	float n_out39p0 = 1.000000;
 
 // Input:6
-	vec3 n_out6p0;
-	n_out6p0 = vec3(UV,0.0);
+	vec3 n_out6p0 = vec3(UV, 0.0);
 
 // Input:30
-	float n_out30p0;
-	n_out30p0 = TIME;
+	float n_out30p0 = TIME;
 
 // Scalar:32
-	float n_out32p0;
-	n_out32p0 = 100.000000;
+	float n_out32p0 = 100.000000;
 
 // VectorOp:31
-	vec3 n_out31p0;
-	n_out31p0 = vec3(n_out30p0) / vec3(n_out32p0);
+	vec3 n_out31p0 = vec3(n_out30p0) / vec3(n_out32p0);
 
 // VectorOp:25
-	vec3 n_out25p0;
-	n_out25p0 = n_out6p0 + n_out31p0;
+	vec3 n_out25p0 = n_out6p0 + n_out31p0;
 
 // Texture:17
-	vec3 n_out17p0;
-	float n_out17p1;
-	vec4 tex_frg_17_read = texture( tex_frg_17 , n_out25p0.xy );
-	n_out17p0 = tex_frg_17_read.rgb;
-	n_out17p1 = tex_frg_17_read.a;
+	vec4 tex_frg_17_read = texture(tex_frg_17, n_out25p0.xy);
+	vec3 n_out17p0 = tex_frg_17_read.rgb;
+	float n_out17p1 = tex_frg_17_read.a;
 
 // ScalarUniform:20
-	float n_out20p0;
-	n_out20p0 = NormalStrength;
+	float n_out20p0 = NormalStrength;
 
 // VectorCompose:21
 	float n_in21p2 = 1.00000;
-	vec3 n_out21p0;
-	n_out21p0 = vec3( n_out20p0 , n_out20p0 , n_in21p2 );
+	vec3 n_out21p0 = vec3(n_out20p0, n_out20p0, n_in21p2);
 
 // VectorOp:16
-	vec3 n_out16p0;
-	n_out16p0 = n_out17p0 * n_out21p0;
+	vec3 n_out16p0 = n_out17p0 * n_out21p0;
 
 // Input:22
-	vec3 n_out22p0;
-	n_out22p0 = vec3(UV,0.0);
+	vec3 n_out22p0 = vec3(UV, 0.0);
 
 // Input:37
-	float n_out37p0;
-	n_out37p0 = TIME;
+	float n_out37p0 = TIME;
 
 // Scalar:36
-	float n_out36p0;
-	n_out36p0 = -100.000000;
+	float n_out36p0 = -100.000000;
 
 // VectorOp:35
-	vec3 n_out35p0;
-	n_out35p0 = vec3(n_out37p0) / vec3(n_out36p0);
+	vec3 n_out35p0 = vec3(n_out37p0) / vec3(n_out36p0);
 
 // VectorOp:34
-	vec3 n_out34p0;
-	n_out34p0 = n_out22p0 + n_out35p0;
+	vec3 n_out34p0 = n_out22p0 + n_out35p0;
 
 // Texture:23
-	vec3 n_out23p0;
-	float n_out23p1;
-	vec4 tex_frg_23_read = texture( tex_frg_23 , n_out34p0.xy );
-	n_out23p0 = tex_frg_23_read.rgb;
-	n_out23p1 = tex_frg_23_read.a;
+	vec4 tex_frg_23_read = texture(tex_frg_23, n_out34p0.xy);
+	vec3 n_out23p0 = tex_frg_23_read.rgb;
+	float n_out23p1 = tex_frg_23_read.a;
 
 // VectorOp:27
-	vec3 n_out27p0;
-	n_out27p0 = n_out23p0 * n_out21p0;
+	vec3 n_out27p0 = n_out23p0 * n_out21p0;
 
 // VectorOp:26
-	vec3 n_out26p0;
-	n_out26p0 = n_out16p0 * n_out27p0;
+	vec3 n_out26p0 = n_out16p0 * n_out27p0;
 
 // Output:0
 	ALBEDO = n_out8p0;
@@ -226,7 +198,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( 76, -14 )
+graph_offset = Vector2( -366, 34 )
 modes/specular = 1
 nodes/fragment/0/position = Vector2( 1920, 100 )
 nodes/fragment/2/node = SubResource( 4 )
