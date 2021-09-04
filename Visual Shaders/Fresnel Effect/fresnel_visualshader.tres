@@ -1,15 +1,15 @@
 [gd_resource type="VisualShader" load_steps=14 format=2]
 
-[sub_resource type="VisualShaderNodeInput" id=7]
+[sub_resource type="VisualShaderNodeInput" id=1]
 input_name = "uv"
 
-[sub_resource type="VisualShaderNodeTextureUniform" id=8]
+[sub_resource type="VisualShaderNodeTextureUniform" id=2]
 uniform_name = "TextureUniform"
 
-[sub_resource type="VisualShaderNodeBooleanUniform" id=10]
+[sub_resource type="VisualShaderNodeBooleanUniform" id=3]
 uniform_name = "AlphaOrEmissionFresnel"
 
-[sub_resource type="VisualShaderNodeExpression" id=12]
+[sub_resource type="VisualShaderNodeExpression" id=4]
 size = Vector2( 790, 437 )
 expression = "if(AlphaOrEmissionFresnel == true){
 	Alpha_out = Fresnel_in;
@@ -24,35 +24,37 @@ if(EnableEmission == true && AlphaOrEmissionFresnel == false) {
 	Emission_out = vec3(0f,0f,0f);
 }"
 
-[sub_resource type="VisualShaderNodeInput" id=18]
+[sub_resource type="VisualShaderNodeInput" id=5]
 input_name = "normal"
 
-[sub_resource type="VisualShaderNodeFresnel" id=1]
+[sub_resource type="VisualShaderNodeFresnel" id=6]
 default_input_values = [ 2, false, 3, 5.0 ]
 
-[sub_resource type="VisualShaderNodeInput" id=19]
+[sub_resource type="VisualShaderNodeInput" id=7]
 input_name = "view"
 
-[sub_resource type="VisualShaderNodeBooleanUniform" id=20]
+[sub_resource type="VisualShaderNodeBooleanUniform" id=8]
 uniform_name = "InvertFresnel"
 
-[sub_resource type="VisualShaderNodeColorUniform" id=13]
+[sub_resource type="VisualShaderNodeColorUniform" id=9]
 uniform_name = "EmissiveColor"
 
-[sub_resource type="VisualShaderNodeScalarUniform" id=14]
+[sub_resource type="VisualShaderNodeScalarUniform" id=10]
 uniform_name = "FresnelStrength"
 
-[sub_resource type="VisualShaderNodeScalarUniform" id=15]
+[sub_resource type="VisualShaderNodeScalarUniform" id=11]
 uniform_name = "EmissiveIntensity"
 
-[sub_resource type="VisualShaderNodeVectorOp" id=16]
+[sub_resource type="VisualShaderNodeVectorOp" id=12]
 operator = 2
 
-[sub_resource type="VisualShaderNodeBooleanUniform" id=17]
+[sub_resource type="VisualShaderNodeBooleanUniform" id=13]
 uniform_name = "EnableEmission"
 
 [resource]
 code = "shader_type spatial;
+render_mode specular_schlick_ggx;
+
 uniform sampler2D TextureUniform;
 uniform bool EnableEmission;
 uniform bool AlphaOrEmissionFresnel;
@@ -144,27 +146,27 @@ void light() {
 
 }
 "
-graph_offset = Vector2( 74, -87.86 )
+graph_offset = Vector2( 361, 100 )
 nodes/fragment/0/position = Vector2( 1845, 95 )
-nodes/fragment/2/node = SubResource( 1 )
+nodes/fragment/2/node = SubResource( 6 )
 nodes/fragment/2/position = Vector2( 682.24, 229.16 )
-nodes/fragment/3/node = SubResource( 13 )
+nodes/fragment/3/node = SubResource( 9 )
 nodes/fragment/3/position = Vector2( 469.24, 396.16 )
-nodes/fragment/4/node = SubResource( 14 )
+nodes/fragment/4/node = SubResource( 10 )
 nodes/fragment/4/position = Vector2( 459.24, 331.16 )
-nodes/fragment/5/node = SubResource( 15 )
+nodes/fragment/5/node = SubResource( 11 )
 nodes/fragment/5/position = Vector2( 469.24, 504.16 )
-nodes/fragment/6/node = SubResource( 16 )
+nodes/fragment/6/node = SubResource( 12 )
 nodes/fragment/6/position = Vector2( 722.24, 421.16 )
-nodes/fragment/8/node = SubResource( 17 )
+nodes/fragment/8/node = SubResource( 13 )
 nodes/fragment/8/position = Vector2( 694.24, 104.16 )
-nodes/fragment/13/node = SubResource( 7 )
+nodes/fragment/13/node = SubResource( 1 )
 nodes/fragment/13/position = Vector2( 1394.24, 49.16 )
-nodes/fragment/14/node = SubResource( 8 )
+nodes/fragment/14/node = SubResource( 2 )
 nodes/fragment/14/position = Vector2( 1576.24, -53.84 )
-nodes/fragment/16/node = SubResource( 10 )
+nodes/fragment/16/node = SubResource( 3 )
 nodes/fragment/16/position = Vector2( 695.24, 166.16 )
-nodes/fragment/18/node = SubResource( 12 )
+nodes/fragment/18/node = SubResource( 4 )
 nodes/fragment/18/position = Vector2( 971.56, 122.8 )
 nodes/fragment/18/size = Vector2( 790, 437 )
 nodes/fragment/18/input_ports = "0,2,EnableEmission;1,2,AlphaOrEmissionFresnel;2,0,Fresnel_in;3,1,Emission_in;"
@@ -181,10 +183,10 @@ if(EnableEmission == true && AlphaOrEmissionFresnel == false) {
 }else{
 	Emission_out = vec3(0f,0f,0f);
 }"
-nodes/fragment/19/node = SubResource( 18 )
+nodes/fragment/19/node = SubResource( 5 )
 nodes/fragment/19/position = Vector2( 455.24, 123.535 )
-nodes/fragment/20/node = SubResource( 19 )
+nodes/fragment/20/node = SubResource( 7 )
 nodes/fragment/20/position = Vector2( 471.24, 187.535 )
-nodes/fragment/21/node = SubResource( 20 )
+nodes/fragment/21/node = SubResource( 8 )
 nodes/fragment/21/position = Vector2( 443, 249.14 )
 nodes/fragment/connections = PoolIntArray( 4, 0, 2, 3, 3, 0, 6, 0, 5, 0, 6, 1, 13, 0, 14, 0, 6, 0, 18, 3, 2, 0, 18, 2, 19, 0, 2, 0, 20, 0, 2, 1, 8, 0, 18, 0, 16, 0, 18, 1, 18, 0, 0, 1, 21, 0, 2, 2, 14, 0, 0, 0, 18, 1, 0, 5 )

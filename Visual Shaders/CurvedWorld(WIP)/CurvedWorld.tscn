@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://default_env.tres" type="Environment" id=1]
+[ext_resource path="res://Visual Shaders/CurvedWorld(WIP)/CurvedWorld.material" type="Material" id=2]
+[ext_resource path="res://Visual Shaders/CurvedWorld(WIP)/CurvedWorld.gd" type="Script" id=3]
+
+[sub_resource type="PlaneMesh" id=1]
+subdivide_width = 20
+subdivide_depth = 20
+
+[node name="Main" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.96815 )
+script = ExtResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 50, -2.6017, -3.13874, -408.236 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 2 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 50, -1.46403, -3.12715, -12.5882 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 2 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="."]
+transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 50, -1.46403, -3.12715, -112.585 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 2 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="."]
+transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 50, -1.46249, -3.12713, -212.034 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 2 )
+
+[node name="MeshInstance5" type="MeshInstance" parent="."]
+transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 50, -1.39787, -3.12714, -309.896 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 2 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.77955, 4.4469, 29.7863 )
+current = true
+far = 8192.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 1 )
