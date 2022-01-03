@@ -1,0 +1,68 @@
+[gd_resource type="VisualShader" load_steps=5 format=2]
+
+[sub_resource type="VisualShaderNodeInput" id=1]
+input_name = "view"
+
+[sub_resource type="VisualShaderNodeExpression" id=2]
+size = Vector2( 250, 150 )
+expression = "vec3 heightmap (vec3 n)
+{
+	return vec3(fbm((5.0 * n) + fbm((5.0 * n) * 3.0 - 1000.0) * 0.05),0,0);
+}"
+
+[sub_resource type="VisualShaderNodeFresnel" id=3]
+
+[sub_resource type="VisualShaderNodeInput" id=4]
+input_name = "normal"
+
+[resource]
+code = "shader_type spatial;
+render_mode specular_schlick_ggx;
+
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Input:9
+	vec3 n_out9p0 = NORMAL;
+
+// Input:10
+	vec3 n_out10p0 = VIEW;
+
+// Fresnel:8
+	float n_in8p3 = 1.00000;
+	float n_out8p0 = pow(1.0 - clamp(dot(n_out9p0, n_out10p0), 0.0, 1.0), n_in8p3);
+
+// Output:0
+	ALPHA = n_out8p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( 1100, 97 )
+nodes/fragment/0/position = Vector2( 2300, 140 )
+nodes/fragment/7/node = SubResource( 2 )
+nodes/fragment/7/position = Vector2( 1500, 820 )
+nodes/fragment/7/size = Vector2( 250, 150 )
+nodes/fragment/7/input_ports = ""
+nodes/fragment/7/output_ports = ""
+nodes/fragment/7/expression = "vec3 heightmap (vec3 n)
+{
+	return vec3(fbm((5.0 * n) + fbm((5.0 * n) * 3.0 - 1000.0) * 0.05),0,0);
+}"
+nodes/fragment/8/node = SubResource( 3 )
+nodes/fragment/8/position = Vector2( 1920, 140 )
+nodes/fragment/9/node = SubResource( 4 )
+nodes/fragment/9/position = Vector2( 1525, 168.25 )
+nodes/fragment/10/node = SubResource( 1 )
+nodes/fragment/10/position = Vector2( 1540, 240 )
+nodes/fragment/connections = PoolIntArray( 9, 0, 8, 0, 10, 0, 8, 1, 8, 0, 0, 1 )

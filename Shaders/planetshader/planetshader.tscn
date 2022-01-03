@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Shaders/planetshader/planetshader_material.tres" type="Material" id=1]
+[ext_resource path="res://Shaders/planetshader/round256x256.PNG" type="Texture" id=2]
+[ext_resource path="res://Shaders/planetshader/round256x2562_n2_invertedY.PNG" type="Texture" id=3]
+[ext_resource path="res://Shaders/planetshader/planetshader.gd" type="Script" id=4]
+[ext_resource path="res://Shaders/planetshader/round256x256w.PNG" type="Texture" id=5]
+
+[node name="Planet" type="Sprite"]
+material = ExtResource( 1 )
+position = Vector2( -0.250336, 0.125164 )
+rotation = 55.9524
+texture = ExtResource( 2 )
+normal_map = ExtResource( 3 )
+script = ExtResource( 4 )
+
+[node name="CanvasModulate(shadow)" type="CanvasModulate" parent="."]
+position = Vector2( -0.198451, 0.197361 )
+rotation = 2.82258
+color = Color( 0.12549, 0.12549, 0.12549, 1 )
+
+[node name="Node" type="Node" parent="."]
+
+[node name="Light2D" type="Light2D" parent="Node"]
+position = Vector2( 221, -115 )
+rotation = 1.7525
+texture = ExtResource( 5 )
+texture_scale = 2.68
+energy = 2.21
+range_height = 35.6
+shadow_enabled = true
+shadow_color = Color( 0, 0, 0, 1 )

@@ -1,0 +1,107 @@
+[gd_resource type="VisualShader" load_steps=10 format=2]
+
+[ext_resource path="res://addons/shaderV/uv/tilingNoffset.gd" type="Script" id=1]
+
+[sub_resource type="VisualShaderNodeColorOp" id=1]
+output_port_for_preview = 0
+
+[sub_resource type="VisualShaderNodeInput" id=2]
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeCustom" id=3]
+default_input_values = [ 1, Vector3( 0, 0, 0 ) ]
+initialized = true
+script = ExtResource( 1 )
+
+[sub_resource type="VisualShaderNodeScalarFunc" id=4]
+function = 31
+
+[sub_resource type="VisualShaderNodeScalarUniform" id=5]
+uniform_name = "ZoomAmmount"
+
+[sub_resource type="VisualShaderNodeVectorOp" id=6]
+operator = 2
+
+[sub_resource type="VisualShaderNodeScalarOp" id=7]
+operator = 2
+
+[sub_resource type="VisualShaderNodeVec3Constant" id=8]
+constant = Vector3( 10, 10, 5 )
+
+[resource]
+code = "shader_type spatial;
+render_mode specular_schlick_ggx;
+
+uniform float ZoomAmmount;
+
+
+// TilingAndOffset
+
+vec2 ti1ingN0ffsetFunc(vec2 _uv_tN0, vec2 _offset_tN0){
+	return vec2(mod(_uv_tN0.x + _offset_tN0.x, 1.0), mod(_uv_tN0.y + _offset_tN0.y, 1.0));
+}
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Input:3
+	vec3 n_out3p0 = vec3(SCREEN_UV, 0.0);
+
+// ScalarUniform:6
+	float n_out6p0 = ZoomAmmount;
+
+// ScalarFunc:5
+	float n_out5p0 = 1.0 - n_out6p0;
+
+// VectorOp:7
+	vec3 n_out7p0 = n_out3p0 * vec3(n_out5p0);
+
+// Vector:9
+	vec3 n_out9p0 = vec3(10.000000, 10.000000, 5.000000);
+
+// ScalarOp:8
+	float n_out8p0 = n_out6p0 * dot(n_out9p0, vec3(0.333333, 0.333333, 0.333333));
+
+// TilingAndOffset:4
+	vec3 n_out4p0;
+	{
+		n_out4p0 = vec3(ti1ingN0ffsetFunc(n_out7p0.xy, vec3(n_out8p0).xy), 0);
+	}
+
+// ColorOp:2
+	vec3 n_out2p0 = vec3(1.0) - (vec3(1.0) - n_out3p0) * (vec3(1.0) - n_out4p0);
+
+// Output:0
+	ALBEDO = n_out2p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -443, 26 )
+nodes/vertex/0/position = Vector2( 1100, 180 )
+nodes/fragment/0/position = Vector2( 1120, 140 )
+nodes/fragment/2/node = SubResource( 1 )
+nodes/fragment/2/position = Vector2( 720, 180 )
+nodes/fragment/3/node = SubResource( 2 )
+nodes/fragment/3/position = Vector2( -340, 180 )
+nodes/fragment/4/node = SubResource( 3 )
+nodes/fragment/4/position = Vector2( 460, 420 )
+nodes/fragment/5/node = SubResource( 4 )
+nodes/fragment/5/position = Vector2( 60, 440 )
+nodes/fragment/6/node = SubResource( 5 )
+nodes/fragment/6/position = Vector2( -260, 380 )
+nodes/fragment/7/node = SubResource( 6 )
+nodes/fragment/7/position = Vector2( 280, 300 )
+nodes/fragment/8/node = SubResource( 7 )
+nodes/fragment/8/position = Vector2( 60, 560 )
+nodes/fragment/9/node = SubResource( 8 )
+nodes/fragment/9/position = Vector2( -380, 560 )
+nodes/fragment/connections = PoolIntArray( 3, 0, 2, 0, 2, 0, 0, 0, 6, 0, 5, 0, 7, 0, 4, 0, 5, 0, 7, 1, 6, 0, 8, 0, 8, 0, 4, 1, 4, 0, 2, 1, 3, 0, 7, 0, 9, 0, 8, 1 )
